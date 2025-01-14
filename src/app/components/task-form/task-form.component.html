@@ -1,0 +1,62 @@
+<div class="wrap-components">
+
+  <div>
+    <form [formGroup]="taskForm" (ngSubmit)="generateDraft()" class="form-container">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input id="title" formControlName="title" class="form-control" placeholder="Enter title..." />
+        <div *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+          <p style="color: red;">Please enter here.</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" formControlName="description" class="form-control"
+          placeholder="Enter detailed description..." rows="4"></textarea>
+        <div *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched">
+          <p style="color: red;">Please enter here.</p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">
+        Generate Draft
+      </button>
+    </form>
+
+
+    <div *ngIf="taskFormValue">
+      <div *ngFor="let draft of taskFormValue" class="draft-container">
+        <h3>Mission draft</h3>
+        <p><strong>Title:</strong> {{ draft?.title }}</p>
+        <p><strong>Description:</strong> {{ draft?.description }}</p>
+        <button (click)="submitDraft(draft)" class="btn btn-success">
+          Submit Task Draft
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div>
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks; let i = index" [class.odd]="i % 2 === 0" [class.even]="i % 2 !== 0">
+          <td>{{ task.id }}</td>
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+        </tr>
+        <tr *ngIf="tasks.length === 0">
+          <td colspan="3" class="no-data">No record.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
